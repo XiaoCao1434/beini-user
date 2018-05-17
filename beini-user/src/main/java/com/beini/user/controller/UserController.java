@@ -22,6 +22,7 @@ import com.beini.user.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Api(value = "用户信息")
 @RestController
@@ -42,7 +43,7 @@ public class UserController {
 	 */
 	@ApiOperation(value = "【小程序】根据jscode获取openId")
 	@GetMapping("smallRoutineLogin")
-	public ResultVO smallRoutineLogin(String jscode) {
+	public ResultVO smallRoutineLogin(@ApiParam(value="小程序获取的jscode") @RequestParam(name = "jscode") String jscode) {
 		MiniProgramLoginVO vo = new MiniProgramLoginVO(jscode);
 		return miniProgramManager.jscode2session(vo);
 	}
@@ -72,8 +73,9 @@ public class UserController {
 	 */
 	@ApiOperation(value = "根据分页信息获取用户分页信息")
 	@GetMapping("")
-	public ResultVO findByPage(@RequestParam(name = "pageNo", required = false, defaultValue = "1") Integer pageNo,
-			@RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+	public ResultVO findByPage(
+			@ApiParam(value="页码") @RequestParam(name = "pageNo", required = false, defaultValue = "1") Integer pageNo,
+			@ApiParam(value="分页大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
 		PageRequest request = new PageRequest(pageNo - 1, pageSize);
 		Page<User> page = userService.findAll(request);
 		return ResultVOUtil.success(page);
