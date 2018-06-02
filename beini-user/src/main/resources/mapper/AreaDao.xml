@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beini.user.dao.AreaDao">
+	<select id="queryArea" resultType="com.beini.user.pojo.Area">
+		SELECT area_id,area_name
+		FROM tb_area
+		order by area_id
+		DESC
+	</select>
+	<select id="queryAreaById" resultType="com.beini.user.pojo.Area">
+		SELECT area_id,area_name
+		FROM tb_area
+		WHERE
+		area_id=#{areaId}
+	</select>
+	<insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"
+	keyColumn="area_id" parameterType="com.beini.user.pojo.Area">
+		INSERT INTO
+		tb_area(area_name)
+		VALUES
+		(#{areaName})
+	</insert>
+	<update id="updateArea" parameterType="com.beini.user.pojo.Area">
+		UPDATE tb_area
+		<set>
+			<if test="areaName!=null">area_name=#{areaName}</if>
+		</set>
+		WHERE
+		area_id=#{areaId}
+	</update>
+	<delete id="deleteArea">
+		DELETE FROM
+		tb_area
+		WHERE
+		area_id=#{areaId}
+	</delete>
+</mapper>
